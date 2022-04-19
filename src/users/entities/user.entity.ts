@@ -1,9 +1,10 @@
 import {
   Column,
   CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+  Entity, JoinColumn, OneToOne,
+  PrimaryGeneratedColumn
+} from "typeorm";
+import { UsersPermissions } from "../../users-permissions/entities/users-permissions.entity";
 
 @Entity('tb_users')
 export class User {
@@ -43,4 +44,8 @@ export class User {
 
   @CreateDateColumn({ type: 'timestamp' })
   deleted_at: Date;
+
+  @OneToOne(() => UsersPermissions)
+  @JoinColumn({ name: 'id', referencedColumnName: 'user_id' })
+  permissions: UsersPermissions;
 }
