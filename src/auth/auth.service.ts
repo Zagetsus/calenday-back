@@ -22,9 +22,11 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
 
-    console.log(user);
-
     if (!user || !(await compare(password, user.password))) {
+      authError();
+    }
+
+    if (!user.employee && !user.company) {
       authError();
     }
 
@@ -32,33 +34,38 @@ export class AuthService {
   }
 
   public async login(user: User) {
-    try {
-      const access_token = await this._sign(user);
+    const access_token = await this._sign(user);
 
-      const userReturn = {
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        permission: user.permissions.permission_id,
-      };
+    const userReturn = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      permission: user.permissions.permission_id,
+      companyName: user.company && user.company.name,
+      employee: !!user.employee,
+    };
 
-      return {
-        access_token,
-        user: userReturn,
-      };
-    } catch (err) {
-      authError();
-    }
+    return {
+      access_token,
+      user: userReturn,
+    };
   }
 
   private async _sign(user: User) {
-    const { password, ...result } = user;
-
     const sign = {
-      id: result.id,
-      name: result.name,
-      email: result.email,
-      permission: result.permissions.permission_id,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      permission: user.permissions.permission_id,
+      company: user.company && {
+        name: user.company.name,
+        id: user.company.id,
+      },
+      employee: user.employee && {
+        id: user.employee.id,
+        occupation: user.employee.occupation_id,
+      },
     };
 
     return this._jwtService.sign(sign);

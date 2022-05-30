@@ -1,10 +1,12 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Company } from '../../companies/entities/company.entity';
@@ -27,14 +29,14 @@ export class Employee {
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP()' })
   created_at: Date;
 
-  @CreateDateColumn({
+  @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP()',
     onUpdate: 'CURRENT_TIMESTAMP()',
   })
   updated_at: Date;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @DeleteDateColumn({ type: 'timestamp' })
   deleted_at: Date;
 
   @OneToOne(() => User)

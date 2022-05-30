@@ -4,8 +4,8 @@ import {
   Entity,
   OneToOne,
   PrimaryGeneratedColumn,
-  JoinColumn,
-} from 'typeorm';
+  JoinColumn, UpdateDateColumn, DeleteDateColumn
+} from "typeorm";
 import { User } from '../../users/entities/user.entity';
 
 @Entity('tb_companies')
@@ -31,14 +31,14 @@ export class Company {
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP()' })
   created_at: Date;
 
-  @CreateDateColumn({
+  @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP()',
     onUpdate: 'CURRENT_TIMESTAMP()',
   })
   updated_at: Date;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @DeleteDateColumn({ type: 'timestamp' })
   deleted_at: Date;
 
   @OneToOne(() => User)

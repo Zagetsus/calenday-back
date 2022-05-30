@@ -14,8 +14,30 @@ export class UsersService {
 
   async findByEmail(email: string) {
     return await this.userRepository.findOne({
-      relations: ['permissions'],
+      select: [
+        'id',
+        'name',
+        'email',
+        'password',
+        'cpf',
+        'birth_date',
+        'phone',
+        'active',
+        'permissions',
+        'company',
+      ],
+      relations: ['permissions', 'company', 'employee'],
       where: { email },
+    });
+  }
+  async findByCpf(cpf: string) {
+    return await this.userRepository.findOne({
+      where: { cpf },
+    });
+  }
+  async findByPhone(phone: string) {
+    return await this.userRepository.findOne({
+      where: { phone },
     });
   }
 
@@ -28,5 +50,11 @@ export class UsersService {
     delete newUser.password;
 
     return newUser;
+  }
+
+  async update(id, data) {
+    await this.userRepository.update(id, data);
+
+    return await this.userRepository.findOne({ id });
   }
 }
