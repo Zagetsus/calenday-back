@@ -42,7 +42,7 @@ export class UsersService {
   }
 
   async create(data: IUser): Promise<User> {
-    data.password = await hash(data.password, 8);
+    if (data.password) data.password = await hash(data.password, 8);
 
     const created = await this.userRepository.create(data);
     const newUser = await this.userRepository.save(created);

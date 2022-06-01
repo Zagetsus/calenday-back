@@ -8,7 +8,7 @@ export class ServicesController {
 
   @Public()
   @Get()
-  async index(@Request() request, @Response() response){
+  async index(@Request() request, @Response() response) {
     const services = await this.service.findAll();
     response.status(200).json(services);
   }

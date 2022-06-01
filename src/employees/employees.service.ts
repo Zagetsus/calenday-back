@@ -59,7 +59,7 @@ export class EmployeesService {
 
     for (const employee of employees) {
       formatterEmployee.push({
-        id: employee.user.id,
+        id: employee.id,
         name: employee.user.name,
         email: employee.user.email,
         cpf: employee.user.cpf,

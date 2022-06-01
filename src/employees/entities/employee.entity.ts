@@ -45,7 +45,7 @@ export class Employee {
 
   @OneToOne(() => Company)
   @JoinColumn({ name: 'company_id', referencedColumnName: 'id' })
-  company: User;
+  company: Company;
 
   @OneToOne(() => Occupation)
   @JoinColumn({ name: 'occupation_id', referencedColumnName: 'id' })

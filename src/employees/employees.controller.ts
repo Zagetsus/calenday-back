@@ -19,6 +19,7 @@ export class EmployeesController {
       request.user.company.id,
     );
 
+
     return response.status(200).json(employees);
   }
 
@@ -54,7 +55,6 @@ export class EmployeesController {
 
     if (existsUser) {
       user = await this.userService.update(existsUser.id, data);
-      console.log(user);
 
       if (existsUser.permissions.permission_id !== SALON) {
         await this.userPermissionService.create({

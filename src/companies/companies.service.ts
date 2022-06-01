@@ -41,7 +41,7 @@ export class CompaniesService {
   }
 
   async create(data) {
-    const createdCompany = await this.companyRepository.create(data);
+    const createdCompany = this.companyRepository.create(data);
     return await this.companyRepository.save(createdCompany);
   }
 }
